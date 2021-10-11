@@ -1,23 +1,14 @@
-import { load } from '../asset-loader.js'
 import { bindEvents } from '../event-bindings.js'
 
 export default function action (node, options = {}) {
   let map
-
-  const resources = [
-    { type: 'script', attr: 'src', value: `//api.mapbox.com/mapbox-gl-js/${options.version}/mapbox-gl.js`, id: 'byk-gl-js' },
-    { type: 'link', attr: 'href', value: `//api.mapbox.com/mapbox-gl-js/${options.version}/mapbox-gl.css`, id: 'byk-gl-css' }
-  ]
 
   const customStylesheetUrl = options.customStylesheetUrl
   if (customStylesheetUrl) {
     resources.push({ type: 'link', attr: 'href', value: customStylesheetUrl, id: 'byk-mcsu-css' })
   }
 
-  let unbind = () => {}
-  load(resources, () => {
-    unbind = init({ ...options, container: node }, node)
-  })
+  let unbind = init({ ...options, container: node }, node)
 
   return {
     destroy () {
